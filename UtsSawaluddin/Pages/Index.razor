@@ -1,0 +1,66 @@
+﻿@page "/"
+@using UtsSawaluddin.Models;
+
+<PageTitle>Index</PageTitle>
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <button onclick="@Add" class="btn btn-primary">ADD</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Judul</th>
+                        <th>Genre</th>
+                        <th>Action</th>
+                    </tr>
+                    @foreach(var genre in listGenre)
+                    {
+                        <tr>
+                            <td>@genre.JudulBuku.ToString()</td>
+                            <td>@genre.GenreBook</td>
+                            <td>
+                                <button @onclick="() => Delete(genre)" type="button"
+                                    class="btn btn-danger" style="background-color: red;">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    JudulBuku koleksi;
+    List<Genre> listGenre;
+
+    protected override void OnInitialized()
+    {
+        listGenre = new List<Genre>();
+    }
+
+    public void Add()
+    {
+        Random Random = new Random();
+
+         JudulBuku randomBook = (JudulBuku)Enum.GetValues(typeof(JudulBuku))
+        .GetValue(Random.Next(Enum.GetValues(typeof(JudulBuku)).Length));
+
+        listGenre.Add(new Genre(randomBook));
+    }
+
+    public void Delete(Genre koleksi)
+    {
+        listGenre.Remove(koleksi);
+    }
+}
